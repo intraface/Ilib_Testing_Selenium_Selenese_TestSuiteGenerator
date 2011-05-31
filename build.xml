@@ -22,9 +22,9 @@
     </target>
 
     <target name="export">
-        <echo msg="Exporting SVN files" />
+        <echo msg="Cloning git repository" />
         <delete dir="${build.dir}" />
-        <exec command="svn export ${source.dir}/src ${build.dir}" />
+        <exec command="git clone git://github.com/intraface/Ilib_Testing_Selenium_Selenese_TestSuiteGenerator.git ${build.dir}" />
         
         <mkdir dir="${build.dir}/package/${package-name}-${version}" />
         <copy todir="${build.dir}/package/${package-name}-${version}">
@@ -34,7 +34,7 @@
                 </replacetokens>
             </filterchain>
 
-            <fileset dir="${build.dir}">
+            <fileset dir="${build.dir}/src">
                 <include name="Ilib/**" />
             </fileset>
         </copy>
@@ -65,7 +65,7 @@
             </dependencies>
 
             <notes>
-                * Added method to create replacements thereby omitting hardcoded replacements
+                * QA Release
             </notes>
         </d51pearpkg2>
     </target>
@@ -107,11 +107,8 @@
 
     <target name="test">
         <exec dir="${tests.dir}" command="phpunit
-          --log-xml ${reports.phpunit.dir}/phpunit.xml
-          --log-pmd ${reports.phpunit.dir}/phpunit.pmd.xml
-          --coverage-xml ${reports.phpunit.dir}/phpunit.coverage.xml
+          --log-junit ${reports.phpunit.dir}/phpunit.xml
           --coverage-html ${reports.coverage.dir}/
-          TestSuiteGeneratorTest" passthru="true" checkreturn="true" />
+          ." passthru="true" checkreturn="true" />
     </target>
-
 </project>
